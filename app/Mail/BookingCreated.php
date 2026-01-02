@@ -10,16 +10,18 @@ class BookingCreated extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $booking;
+    public $booking; // rename here
 
-    public function __construct($booking)
+    public function __construct(array $emailData)
     {
-        $this->booking = $booking; // object sent from React
+        $this->booking = $emailData; // assign it to $booking
     }
 
     public function build()
     {
-        return $this->subject('Your Booking is Confirmed')
-                    ->view('emails.booking_created'); 
+        return $this->from(config('mail.from.address'), config('mail.from.name'))
+                    ->subject('Your Booking is Confirmed!')
+                    ->view('emails.booking_created'); // your email view
     }
 }
+
